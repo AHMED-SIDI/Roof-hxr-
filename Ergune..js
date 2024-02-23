@@ -6,7 +6,7 @@ function calcul_DeltaP(P_1, mu, rho, alpha_12,f1,f2, eps,V12, d, beta_12) {
 
     const DeltaP = alpha_12*A*mu*V12 + beta_12*B*rho*V12**2 ;
 
-    P_2 = -DeltaP + P_1 ;
+    P_2 =  P_1 - DeltaP ;
     
     
     return P_2;
