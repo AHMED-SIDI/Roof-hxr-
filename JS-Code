@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class Test {
+public class RoofInletLoss {
 
     public static double calculatePressureDrop(float pressure, float temperature, float flowRateN, float pressureDropAllowed,float sheetThickness ,float holesDiameter, float numberHoles) {                                            
                                                 
