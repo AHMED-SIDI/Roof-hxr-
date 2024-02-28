@@ -1,18 +1,18 @@
 public class Ergun {
-    public static double calculatePressureDrop(double pressureInlet, double kinematicViscosity, double densityGas,
-                                              double sizeLaminarFactor, double laminarFactorCorrection,
-                                              double turbulentFactorCorrection, double voidFraction, double flowRate,
-                                              double particlDiameter, double sizeTurbulentFactor) {
+    public static double calculatePressureLoss(double pressureInlet, double kinematicViscosity, double gasDensity,
+                                              double ergunLaminarGeometrieCoeff, double ergunLaminarCorrectionCoeff,
+                                              double ergunTurbulentCorrectionCoeff, double porisity, double flowRate,
+                                              double particlDiameter, double ergunTurbulentGeometrieCoeff) {
 
-        double A = laminarFactorCorrection * 150 * Math.pow((1 - voidFraction), 2) /
-                   (Math.pow(voidFraction, 3) * Math.pow(particlDiameter, 2));
-        double B = turbulentFactorCorrection * 1.750 *(1 - voidFraction) /
-                   (Math.pow(voidFraction, 3) *particlDiameter);
+        double A = ergunLaminarCorrectionCoeff * 150 * Math.pow((1 - porisity), 2) /
+                   (Math.pow(porisity, 3) * Math.pow(particlDiameter, 2));
+        double B = ergunTurbulentCorrectionCoeff * 1.750 *(1 - porisity) /
+                   (Math.pow(porisity, 3) *particlDiameter);
 
-        double pressureDrop = sizeLaminarFactor * A * kinematicViscosity * flowRate +
-                              sizeTurbulentFactor * B * densityGas * Math.pow(flowRate, 2);
+        double pressureLoss = ergunLaminarGeometrieCoeff * A * kinematicViscosity * flowRate +
+                              ergunTurbulentGeometrieCoeff * B * gasDensity * Math.pow(flowRate, 2);
 
-        double pressureOutlet = pressureInlet - pressureDrop;
+        double pressureOutlet = pressureInlet - pressureLoss;
 
         return pressureOutlet;
     }
@@ -20,21 +20,19 @@ public class Ergun {
     public static void main(String[] args) {
         double pressureInlet = 166500;
         double kinematicViscosity = 0.00001;
-        double densityGas = 1500;
-        double sizeLaminarFactor = 0.55;
-        double sizeTurbulentFactor = 0.36;
+        double gasDensity = 1500;
+        double ergunLaminarGeometrieCoeff = 0.55;
+        double ergunTurbulentGeometrieCoeff = 0.36;
         double particlDiameter = 25;
-        double voidFraction = 0.625;
+        double porisity = 0.625;
         double flowRate = 10;
-        double laminarFactorCorrection = 0.23625;
-        double turbulentFactorCorrection = 0.950;
+        double ergunLaminarCorrectionCoeff = 0.23625;
+        double ergunTurbulentCorrectionCoeff = 0.950;
 
-        double result = calculatePressureDrop(pressureInlet, kinematicViscosity, densityGas, sizeLaminarFactor,
-                laminarFactorCorrection, turbulentFactorCorrection, voidFraction, flowRate, particlDiameter,
-                sizeTurbulentFactor);
+        double result = calculatePressureLoss(pressureInlet, kinematicViscosity, gasDensity, ergunLaminarGeometrieCoeff,
+                ergunLaminarCorrectionCoeff, ergunTurbulentCorrectionCoeff, porisity, flowRate, particlDiameter,
+                ergunTurbulentGeometrieCoeff);
 
         System.out.println("The pressure drop is: " + result);
     }
 }
-
-
