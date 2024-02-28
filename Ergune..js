@@ -1,30 +1,40 @@
+public class Ergun {
+    public static double calculatePressureDrop(double pressureInlet, double kinematicViscosity, double densityGas,
+                                              double sizeLaminarFactor, double laminarFactorCorrection,
+                                              double turbulentFactorCorrection, double voidFraction, double flowRate,
+                                              double particlDiameter, double sizeTurbulentFactor) {
 
-function calculculatPressureDrop(pressureInlet, kinematicViscosity, densityGas, sizeLaminarFactor,laminarFactorCorrection,turbulentFactorCorrection,voidFraction,flowRate, particulDiametre, sizeturbulentFactor ) {
-     
-    const A = laminarFactorCorrection*150*(1-voidFraction)**2/((voidFraction**3)*particulDiametre**2);
-    const B = turbulentFactorCorrection*150*(1-voidFraction)**2/((voidFraction**3)*particulDiametre**2);
+        double A = laminarFactorCorrection * 150 * Math.pow((1 - voidFraction), 2) /
+                   (Math.pow(voidFraction, 3) * Math.pow(particlDiameter, 2));
+        double B = turbulentFactorCorrection * 1.750 *(1 - voidFraction) /
+                   (Math.pow(voidFraction, 3) *particlDiameter);
 
+        double pressureDrop = sizeLaminarFactor * A * kinematicViscosity * flowRate +
+                              sizeTurbulentFactor * B * densityGas * Math.pow(flowRate, 2);
 
-    const pressureDrop = sizeLaminarFactor*A*kinematicViscosity*flowRate + sizeturbulentFactor*B*densityGas*flowRate**2 ;
+        double pressureOutlet = pressureInlet - pressureDrop;
 
-    pressureOutlet =  pressureInlet - pressureDrop ;
-    
-    
-    return pressureOutlet;
-} 
-  const pressureInlet = 166500;
-  const kinematicViscosity = 0.00001;
-  const densityGas = 1500;
-  const sizeLaminarFactor = 0.55;
-  const sizeturbulentFactor = 0.36;
-  const particulDiametre = 25;
-  const voidFraction = 0.625;
-  const flowRate = 10;
-  const laminarFactorCorrection =0.23625;
-  const turbulentFactorCorrection = 0.950;
+        return pressureOutlet;
+    }
 
-  const result = calcul_DeltaP(pressureInlet, kinematicViscosity, densityGas, sizeLaminarFactor,laminarFactorCorrection,turbulentFactorCorrection, voidFraction,flowRate, particulDiametre, sizeturbulentFactor);
-  console.log('the pressor drop is : ', result);
-  
+    public static void main(String[] args) {
+        double pressureInlet = 166500;
+        double kinematicViscosity = 0.00001;
+        double densityGas = 1500;
+        double sizeLaminarFactor = 0.55;
+        double sizeTurbulentFactor = 0.36;
+        double particlDiameter = 25;
+        double voidFraction = 0.625;
+        double flowRate = 10;
+        double laminarFactorCorrection = 0.23625;
+        double turbulentFactorCorrection = 0.950;
+
+        double result = calculatePressureDrop(pressureInlet, kinematicViscosity, densityGas, sizeLaminarFactor,
+                laminarFactorCorrection, turbulentFactorCorrection, voidFraction, flowRate, particlDiameter,
+                sizeTurbulentFactor);
+
+        System.out.println("The pressure drop is: " + result);
+    }
+}
 
 
